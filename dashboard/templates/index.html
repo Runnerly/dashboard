@@ -15,22 +15,7 @@
 
     <script src="/static/react/react.js"></script>
     <script src="/static/react/react-dom.js"></script>
-    <script src="/static/babel/browser.js"></script>
     <script src="/static/dashboard.js"></script>
 
-    <script type="text/babel">
-    ReactDOM.render(
-      <RunsBox url="/api/runs.json" />,
-      document.getElementById('runs')
-    );
-    ReactDOM.render(
-      <RacesBox url="/api/races.json" />,
-      document.getElementById('races')
-    );
-    ReactDOM.render(
-      <TrainingRunsBox url="/api/training.json" />,
-      document.getElementById('training')
-    );
-    </script>
   </body>
 </html>
