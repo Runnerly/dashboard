@@ -10,13 +10,11 @@ def email_to_uid(email):
     return 1
 
 
-
 def get_token():
     data = [('client_id', app.config['TOKENDEALER_CLIENT_ID']),
-        ('client_secret', app.config['TOKENDEALER_CLIENT_SECRET']),
-        ('audience', 'runnerly.io'),
-        ('grant_type', 'client_credentials')]
-
+            ('client_secret', app.config['TOKENDEALER_CLIENT_SECRET']),
+            ('audience', 'runnerly.io'),
+            ('grant_type', 'client_credentials')]
 
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     url = app.config['TOKENDEALER'] + '/oauth/token'
@@ -24,7 +22,7 @@ def get_token():
     return resp.json()['access_token']
 
 
-_TOKEN = 'blak'
+_TOKEN = 'NOT_SET'
 
 
 def get_auth_header(new=False):
@@ -35,17 +33,15 @@ def get_auth_header(new=False):
 
 
 def call_data_service(endpoint):
-    attempt = 1
     token = get_auth_header()
-    while attempt < 3:
-        resp = requests.get(app.config['DATASERVICE'] + endpoint,
-                            headers={'Authorization': token})
-        if not resp.status_code == 401:
-            break
-
+    resp = requests.get(app.config['DATASERVICE'] + endpoint,
+                        headers={'Authorization': token})
+    if resp.status_code == 401:
         # the token might be revoked
         token = get_auth_header(new=True)
-        attempt += 1
+        resp = requests.get(app.config['DATASERVICE'] + endpoint,
+                            headers={'Authorization': token})
+
     return resp
 
 
