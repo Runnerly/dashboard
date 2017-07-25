@@ -17,7 +17,6 @@ def strava_login():
     csecret = current_app.config['STRAVA_CLIENT_SECRET']
     access_token = client.exchange_code_for_token(client_id=cid,
             client_secret=csecret, code=code)
-
     athlete = client.get_athlete()
     email = athlete.email
     send_user_to_dataservice(email, access_token)

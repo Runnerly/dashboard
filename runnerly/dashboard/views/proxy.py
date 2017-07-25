@@ -1,9 +1,11 @@
 import requests
+
+from flakon import JsonBlueprint
 from flask import Blueprint, abort, session, jsonify
 from flask import current_app as app
 
 
-proxy = Blueprint('proxy', __name__)
+proxy = JsonBlueprint('proxy', __name__)
 
 
 def email_to_uid(email):
@@ -53,5 +55,3 @@ def runs(year, month):
     endpoint = '/runs/%d/%d/%d' % (uid, year, month)
     resp = call_data_service(endpoint)
     return jsonify(resp.json())
-
-
